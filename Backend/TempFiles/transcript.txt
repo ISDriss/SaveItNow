@@ -1,1 +1,1 @@
-Ceci est un test en français.
+Ceci est un test pour vérifier que l'application fonctionne correctement.
