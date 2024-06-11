@@ -12,10 +12,10 @@ def Audio_To_Text(audio, text):
     # si la transcription n'échoue pas, le texte est sauvegardé
     if transcript.status == aai.TranscriptStatus.error:
         print(transcript.error)
-        with open(text,'w') as f:
+        with open(text, 'w', encoding='utf-8') as f:
             f.write("an error occured")
     else:
-        with open(text, 'w') as f:
+        with open(text, 'w', encoding='utf-8') as f:
             f.write(transcript.text)
     
     print("transcription completed")

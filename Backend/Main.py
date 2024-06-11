@@ -9,7 +9,7 @@ SUMMARY_URL = "./Backend/TempFiles/summary.txt"
 
 record_and_save(AUDIO_URL)
 Audio_To_Text(AUDIO_URL, TEXT_URL)
-generate_lecture_notes(SUMMARY_URL)
+generate_lecture_notes(TEXT_URL,SUMMARY_URL)
 
 
 

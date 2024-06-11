@@ -1,7 +1,8 @@
 from transformers import pipeline
 import re
+import os
 
-TF_ENABLE_ONEDNN_OPTS=0
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
 def split_text(text, max_chunk_length=1000):
     # Split text into chunks while preserving sentence boundaries
@@ -21,10 +22,10 @@ def split_text(text, max_chunk_length=1000):
     
     return chunks
 
-def generate_lecture_notes(file_url):
+def generate_lecture_notes(fromfile, tofile):
     print("Summarising...")
 
-    with open(file_url, 'r') as file:
+    with open(fromfile, 'r', encoding='utf-8') as file:
         text = file.read().replace('\n', '')
 
     #ATTENTION : le text doit faire plus de 30 mots sinon ça fait n'importe quoi
@@ -44,7 +45,7 @@ def generate_lecture_notes(file_url):
         
         summary = summary_text.strip()
 
-    with open(file_url, 'w') as f:
+    with open(tofile, 'w', encoding='utf-8') as f:
         f.write(summary)
 
     print("Summary completed")
