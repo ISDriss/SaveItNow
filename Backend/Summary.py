@@ -22,23 +22,30 @@ def split_text(text, max_chunk_length=1000):
     return chunks
 
 def generate_lecture_notes(file_url):
-
     print("Summarising...")
 
     with open(file_url, 'r') as file:
         text = file.read().replace('\n', '')
-    
-    chunks = split_text(text)
-    
+
+    #ATTENTION : le text doit faire plus de 30 mots sinon ça fait n'importe quoi
     summarization_pipeline = pipeline("summarization")
-    summary_text = ""
-    for chunk in chunks:
-        max_length = min(len(chunk) // 3, 50)  # You can adjust the ratio and the maximum length as needed
-        summary = summarization_pipeline(chunk, max_length=max_length, min_length=30, do_sample=False)[0]['summary_text']
-        summary_text += ' ' + summary
+    
+    # mettre le pourcentage voulu du text de début
+    target_length = len(text) * 0.2
+    
+    summary = text
+    while len(summary) > target_length:
+        chunks = split_text(summary)
+        summary_text = ""
+        for chunk in chunks:
+            max_length = min(len(chunk) // 3, 50)  # You can adjust the ratio and the maximum length as needed
+            chunk_summary = summarization_pipeline(chunk, max_length=max_length, min_length=30, do_sample=False)[0]['summary_text']
+            summary_text += ' ' + chunk_summary
+        
+        summary = summary_text.strip()
 
     with open(file_url, 'w') as f:
-        f.write(s)
+        f.write(summary)
 
     print("Summary completed")
-    return summary_text.strip()
+    return summary
