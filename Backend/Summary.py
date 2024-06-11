@@ -21,7 +21,7 @@ def split_text(text, max_chunk_length=1000):
     
     return chunks
 
-def generate_lecture_notes(file_url,s):
+def generate_lecture_notes(file_url):
 
     print("Summarising...")
 
@@ -31,17 +31,14 @@ def generate_lecture_notes(file_url,s):
     chunks = split_text(text)
     
     summarization_pipeline = pipeline("summarization")
+    summary_text = ""
     for chunk in chunks:
         max_length = min(len(chunk) // 3, 50)  # You can adjust the ratio and the maximum length as needed
         summary = summarization_pipeline(chunk, max_length=max_length, min_length=30, do_sample=False)[0]['summary_text']
-        #print("Summary:")
-        #print(summary)
-        #print("-" * 50)
-        s = s + ' ' + summary
-        print(len(text)-len(s))
+        summary_text += ' ' + summary
 
     with open(file_url, 'w') as f:
         f.write(s)
 
     print("Summary completed")
-    return s
+    return summary_text.strip()
