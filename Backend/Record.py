@@ -2,6 +2,7 @@ import threading
 import keyboard
 import pyaudio
 import wave
+from audio_denoiser.AudioDenoiser import AudioDenoiser
 
 chunk = 1024  # Record in chunks of 1024 samples
 sample_format = pyaudio.paInt16  # 16 bits per sample
@@ -48,3 +49,7 @@ def record_and_save(file):
     wf.close()
 
     print('Finished recording')
+
+def clean_audio(file):
+    denoiser = AudioDenoiser()
+    denoiser.process_audio_file(file, file)
